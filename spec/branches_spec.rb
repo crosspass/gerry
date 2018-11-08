@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'pry'
 
 describe 'branches' do
   before(:all) do
@@ -86,4 +85,23 @@ describe 'branches' do
     access = @client.create_branch_access('foo', 'master', access)
     expect(stub).to have_been_requested
   end
+
+  context 'meizu gerrit' do
+    before(:all) do
+      WebMock.allow_net_connect!
+      @client = MeizuGerry.new
+      # @client.class.http_proxy('localhost', 8008)
+    end
+
+    describe 'get file content' do
+      WebMock.allow_net_connect!
+      @client = MeizuGerry.new
+
+      project = 'app/SDK/MeizuWidget'
+      branch = 'master'
+      file_id = 'README.md'
+      @client.branch_file_content(project, branch, file_id)
+    end
+  end
 end
+

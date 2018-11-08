@@ -5,9 +5,17 @@ require_relative '../lib/gerry'
 
 class MockGerry < Gerry::Client
   URL = 'http://localhost'
-  
+
   def initialize
     super(URL)
+  end
+end
+
+class MeizuGerry < Gerry::Client
+  URL = 'http://review.rnd.meizu.com'
+
+  def initialize
+    super(URL, 'jenkinsbuilder', 'pSJ}8cE>7b9')
   end
 end
 
@@ -33,7 +41,7 @@ def stub_put(url, body, response_body=nil)
   }
   stub_request(:put, "#{MockGerry::URL}#{url}").
     with(:body => body, :headers => { 'Content-Type' => 'application/json' }).
-      to_return(response)
+    to_return(response)
 end
 
 def stub_post(url, body, response_body=nil)
@@ -46,5 +54,5 @@ def stub_post(url, body, response_body=nil)
   }
   stub_request(:post, "#{MockGerry::URL}#{url}").
     with(:body => body, :headers => { 'Content-Type' => 'application/json' }).
-      to_return(response)
+    to_return(response)
 end

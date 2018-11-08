@@ -33,6 +33,41 @@ module Gerry
           return response if response.empty? || !response.last.delete('_more_changes')
         end
       end
+
+      def change(change_id)
+        url = "/changes/#{change_id}"
+        get(url)
+      end
+
+      def change_create(change)
+        url = '/changes/'
+        post(url, change.to_json)
+      end
+
+      def change_detail(change_id)
+        url = "/changes/#{change_id}/detail"
+        get(url)
+      end
+
+      def change_edit(change_id)
+        url = "/changes/#{change_id}/edit"
+        get(url)
+      end
+
+      def change_file(change_id, path, file)
+        url = "/changes/#{change_id}/edit/#{path}"
+        put(url, body: File.read(file))
+      end
+
+      def change_submit(change_id, options)
+        url = "/changes/#{change_id}/submit"
+        post(url, options.to_json)
+      end
+
+      def change_cherry_pick(change_id, revision, options)
+        url = "/changes/#{change_id}/revisions/#{revision}/cherrypick"
+        post(url, options.to_json)
+      end
     end
   end
 end

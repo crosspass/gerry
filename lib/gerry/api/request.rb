@@ -24,7 +24,7 @@ module Gerry
             'Content-Type' => 'application/json'
           }
         }
-        default_options[:body] = body.to_json
+        default_options[:body] = body
         default_options
       end
 
@@ -38,7 +38,7 @@ module Gerry
       end
 
       def put(url, body = nil)
-        response = self.class.put(auth_url(url), options(body))
+        response = self.class.put(auth_url(url), body)
         parse(response)
       end
 
@@ -58,7 +58,8 @@ module Gerry
         unless /2[0-9][0-9]/.match(response.code.to_s)
           raise_request_error(response)
         end
-        unless response.body.size.zero?
+
+        unless response.body.to_s.size.zero?
           source = remove_magic_prefix(response.body)
           if source.lines.count == 1 && !source.start_with?('{') && !source.start_with?('[')
             # Work around the JSON gem not being able to parse top-level values, see
