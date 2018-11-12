@@ -14,7 +14,13 @@ module Gerry
       # @param [String] name the project name.
       # @return [Hash] the projects.
       def find_project(name)
-        get("/projects/#{name}")
+        get("/projects/#{CGI.escape(name)}")
+      end
+
+      ##
+      # Retrieves the description of a project.
+      def project_description(project)
+        get("/projects/#{CGI.escape(project)}/description")
       end
 
       # Get the symbolic HEAD ref for the specified project.
@@ -22,7 +28,7 @@ module Gerry
       # @param [String] project the project name.
       # @return [String] the current ref to which HEAD points to.
       def get_head(project)
-        get("/projects/#{project}/HEAD")
+        get("/projects/#{CGI.escape(project)}/HEAD")
       end
 
       # Set the symbolic HEAD ref for the specified project to
@@ -32,7 +38,7 @@ module Gerry
       # @param [String] branch the branch to point to.
       # @return [String] the new ref to which HEAD points to.
       def set_head(project, branch)
-        url = "/projects/#{project}/HEAD"
+        url = "/projects/#{CGI.escape(project)}/HEAD"
         body = {
           ref: 'refs/heads/' + branch
         }
@@ -42,27 +48,27 @@ module Gerry
       ##
       # lists the access rights for signle project
       def project_access(project)
-        get("/projects/#{project}/access")
+        get("/projects/#{CGI.escape(project)}/access")
       end
 
       def create_project_access(project, permissions)
         access = {
           'add' => permissions
         }
-        post("/projects/#{project}/access", access)
+        post("/projects/#{CGI.escape(project)}/access", access)
       end
 
       def remove_project_access(project, permissions)
         access = {
           'remove' => permissions
         }
-        post("/projects/#{project}/access", access)
+        post("/projects/#{CGI.escape(project)}/access", access)
       end
 
       ##
       # Retrieves a commit of a project.
       def project_commit(project, commit_id)
-        get("/projects/#{project}/commits/#{commit_id}")
+        get("/projects/#{CGI.escape(project)}/commits/#{commit_id}")
       end
     end
   end

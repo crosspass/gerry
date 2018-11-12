@@ -20,9 +20,9 @@ module Gerry
   #  client = Gerry::Client.new('http://gerrit.example.com')
   # - for user/password
   #  client = Gerry::Client.new('http://gerrit.example.com', 'username', 'password')
-  #  
-  #   
-  
+  #
+  #
+
   class Client
     include HTTParty
     headers 'Accept' => 'application/json'
@@ -35,17 +35,14 @@ module Gerry
     include Api::Branches
     include Api::Request
 
-    def set_auth_type(auth_type)
+    def set_auth_type(auth_type = :digest_auth)
       @auth_type = auth_type
     end
 
     def initialize(url, username = nil, password = nil)
       self.class.base_uri(url)
-      if username && password
-        self.class.basic_auth(username, password)
-      end
-      @auth_type = :digest_auth
-
+      self.class.basic_auth(username, password) if username && password
+      set_auth_type
       if username && password
         @username = username
         @password = password
@@ -56,4 +53,3 @@ module Gerry
     end
   end
 end
-
