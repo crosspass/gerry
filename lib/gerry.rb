@@ -1,7 +1,7 @@
 require_relative 'gerry/client'
 
 module Gerry
-  class << self  
+  class << self
     # Alias for Gerry::Client.new
     #
     # @return [Gerry::Client]

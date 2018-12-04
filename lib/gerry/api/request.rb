@@ -34,7 +34,7 @@ module Gerry
       end
 
       def auth_url(url)
-        self.class.default_options[:basic_auth] ? "/a#{url}" : url
+        self.class.default_options[:basic_auth] ? "#{@prefix}/a#{url}" : "#{@prefix}#{url}"
       end
 
       def put(url, body = nil)
