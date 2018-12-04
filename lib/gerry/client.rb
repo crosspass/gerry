@@ -40,8 +40,8 @@ module Gerry
     end
 
     def initialize(url, username = nil, password = nil)
-      host, prefix = url.split('/')
-      @prefix = "/#{prefix}" if prefix
+      host = URI(url).host
+      @prefix = URI(url).path
       self.class.base_uri(host)
       self.class.basic_auth(username, password) if username && password
       set_auth_type
