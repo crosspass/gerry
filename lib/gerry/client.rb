@@ -40,9 +40,11 @@ module Gerry
     end
 
     def initialize(url, username = nil, password = nil)
-      host = URI(url).host
-      @prefix = URI(url).path
-      self.class.base_uri(host)
+      # compitable with /l/a/path
+      uri = URI(url)
+      @prefix = uri.path
+      url = "#{uri.scheme}://#{uri.host}:#{uri.port}"
+      self.class.base_uri(url)
       self.class.basic_auth(username, password) if username && password
       set_auth_type
       if username && password
